@@ -1,0 +1,26 @@
+set(DLL_ENGINE "engine")
+set(CURRENT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
+
+set(RENDER_HEADERS engine/engine.hpp)
+set(RENDER_SOURCES engine/engine.cpp)
+
+set(DLL_MAJOR_VERSION 0)
+set(DLL_MINOR_VERSION 1)
+set(DLL_PATCH_VERSION 0)
+set(DLL_VERSION "${DLL_MAJOR_VERSION}.${DLL_MINOR_VERSION}.${DLL_PATCH_VERSION}")
+
+add_library(${DLL_ENGINE} STATIC ${RENDER_HEADERS} ${RENDER_SOURCES})
+
+set_target_properties(${DLL_ENGINE} PROPERTIES VERSION ${DLL_VERSION})
+install(TARGETS ${DLL_ENGINE}
+RUNTIME DESTINATION lib
+ARCHIVE DESTINATION lib
+LIBRARY DESTINATION lib)
+
+target_include_directories(${DLL_ENGINE} PUBLIC ${CURRENT_DIR})
+list(APPEND LINKS_LIST ${DLL_ENGINE})
+list(APPEND INCLUDES_LIST ${CURRENT_DIR})
+
+message("libs: in engine ${INCLUDES_LIST}")
+message("----------------------")
+message("links: in engine${LINKS_LIST}")
