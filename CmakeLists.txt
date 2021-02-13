@@ -1,8 +1,13 @@
 set(DLL_ENGINE "engine")
 set(CURRENT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
-set(RENDER_HEADERS engine/engine.hpp)
-set(RENDER_SOURCES engine/engine.cpp)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
+
+
+set(RENDER_HEADERS engine/engine.hpp "engine/vk_renderer/renderer.hpp")
+set(RENDER_SOURCES engine/engine.cpp "engine/vk_renderer/renderer.cpp")
 
 set(DLL_MAJOR_VERSION 0)
 set(DLL_MINOR_VERSION 1)
@@ -10,23 +15,34 @@ set(DLL_PATCH_VERSION 0)
 set(DLL_VERSION "${DLL_MAJOR_VERSION}.${DLL_MINOR_VERSION}.${DLL_PATCH_VERSION}")
 
 set(THIRD_PARTY_DIR "${CURRENT_DIR}/third_party")
-set(GLFW_PATH "${THIRD_PARTY_DIR}/glfw")
-set(GLM_PATH "${THIRD_PARTY_DIR}/glm")
 
 
-add_subdirectory(${GLM_PATH})
-
-set(GLFW_BUILD_DOCS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_TESTS OFF CACHE BOOL "" FORCE)
-set(GLFW_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
-add_subdirectory(${GLFW_PATH})
+add_subdirectory(${THIRD_PARTY_DIR})
 
 
 add_library(${DLL_ENGINE} STATIC ${RENDER_HEADERS} ${RENDER_SOURCES})
 
-target_link_libraries(${DLL_ENGINE} PUBLIC glm)
-target_link_libraries(${DLL_ENGINE} PUBLIC glfw)
-target_include_directories(${DLL_ENGINE} PRIVATE glm)
+# compiler flags based on compiler type
+if(NOT MSVC)
+    target_compile_options(${PROJECT_NAME} PUBLIC -fexceptions)
+endif()
+
+if(${VKB_VALIDATION_LAYERS})
+    target_compile_definitions(${PROJECT_NAME} PUBLIC VKB_VALIDATION_LAYERS)
+endif()
+
+
+target_link_libraries(${DLL_ENGINE}
+    glm
+    glfw 
+    imgui
+    vulkan)
+
+target_include_directories(${DLL_ENGINE} PRIVATE
+    glm
+    glfw
+    imgui
+    vulkan)
 
 
 

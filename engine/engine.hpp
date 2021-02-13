@@ -10,6 +10,7 @@ private: // private data
 	GLFWwindow* _window = nullptr;
 	int _width, _height;
 	const char* _name;
+
 private: //private methods
 	void initWindow();
 	void mainLoop();
