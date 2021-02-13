@@ -36,13 +36,15 @@ target_link_libraries(${DLL_ENGINE}
     glm
     glfw 
     imgui
-    vulkan)
+    vulkan
+    spdlog)
 
 target_include_directories(${DLL_ENGINE} PRIVATE
     glm
     glfw
     imgui
-    vulkan)
+    vulkan
+    spdlog)
 
 
 

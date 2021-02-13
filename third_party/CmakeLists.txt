@@ -67,7 +67,6 @@ set_property(TARGET imgui PROPERTY FOLDER "third_party")
 
 # spdlog
 add_subdirectory(spdlog)
-set_property(TARGET spdlog_headers_for_ide PROPERTY FOLDER "third_party")
 
 # GLFW
 option(GLFW_BUILD_DOCS OFF)
