@@ -6,8 +6,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 
-set(RENDER_HEADERS engine/engine.hpp "engine/vk_renderer/renderer.hpp")
-set(RENDER_SOURCES engine/engine.cpp "engine/vk_renderer/renderer.cpp")
+set(RENDER_HEADERS 
+"engine/engine.hpp"
+"engine/renderer/renderer.hpp"
+"engine/renderer/window.hpp"
+)
+set(RENDER_SOURCES 
+"engine/engine.cpp"
+"engine/renderer/renderer.cpp"
+"engine/renderer/window.cpp")
 
 set(DLL_MAJOR_VERSION 0)
 set(DLL_MINOR_VERSION 1)
@@ -31,19 +38,19 @@ if(${VKB_VALIDATION_LAYERS})
     target_compile_definitions(${PROJECT_NAME} PUBLIC VKB_VALIDATION_LAYERS)
 endif()
 
-
 target_link_libraries(${DLL_ENGINE}
     glm
     glfw 
-    imgui
     vulkan
+    ${Vulkan_LIBRARY}
+    imgui
     spdlog)
 
 target_include_directories(${DLL_ENGINE} PRIVATE
     glm
     glfw
-    imgui
     vulkan
+    imgui
     spdlog)
 
 

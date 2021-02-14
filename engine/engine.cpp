@@ -6,40 +6,34 @@ Engine::Engine(int width,int height,const char* name)
     this->_height = height;
     this->_name = name;
     std::cout << "started the engine object" << std::endl;
+    _window = new Window();
+    auto extensions = _window->GetVulkanExtensions();
+    _renderer = new Renderer(extensions);
 }
 
-void Engine::test()
-{
-    std::cout << "Hello World From engine instance\n";
-}
-Engine::~Engine()
-{
-
-    std::cout << "destroy engine object \n";
-}
-
-void Engine::initWindow() {
-    glfwInit();
-
-    glfwWindowHint(GLFW_CLIENT_API, GLFW_NO_API);
-    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
-
-    this->_window = glfwCreateWindow(this->_width, this->_height, "Vulkan", nullptr, nullptr);
+void Engine::init() {
+    _window->init(_width, _height, _name, _renderer);
+    _renderer->init(_width,_height);
 }
 void Engine::mainLoop() {
-    while (!glfwWindowShouldClose(this->_window)) {
-        glfwPollEvents();
+    while (_window->loop() > -1) {
+
     }
 }
 
-void Engine::cleanup() {
-    glfwDestroyWindow(this->_window);
-
-    glfwTerminate();
-}
 
 void Engine::run() {
-    this->initWindow();
+    this->init();
     this->mainLoop();
-    this->cleanup();
+}
+
+void Engine::cleanup() {
+    this->_window->destroy();
+    this->_renderer->cleanup();
+}
+
+Engine::~Engine()
+{
+    cleanup();
+    std::cout << "destroy engine object \n";
 }
