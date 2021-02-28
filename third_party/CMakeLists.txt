@@ -24,6 +24,7 @@ set(VULKAN_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/vulkan/include)
 target_include_directories(vulkan INTERFACE ${VULKAN_INCLUDE_DIR})
 target_compile_definitions(vulkan INTERFACE)
 
+find_package(Vulkan REQUIRED FATAL_ERROR)
 if(ANDROID)
     target_compile_definitions(vulkan INTERFACE VK_USE_PLATFORM_ANDROID_KHR)
 elseif(WIN32)

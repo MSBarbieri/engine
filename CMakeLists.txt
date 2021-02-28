@@ -1,3 +1,4 @@
+cmake_minimum_required (VERSION 3.10)
 set(DLL_ENGINE "engine")
 set(CURRENT_DIR ${CMAKE_CURRENT_SOURCE_DIR})
 
@@ -31,11 +32,11 @@ add_library(${DLL_ENGINE} STATIC ${RENDER_HEADERS} ${RENDER_SOURCES})
 
 # compiler flags based on compiler type
 if(NOT MSVC)
-    target_compile_options(${PROJECT_NAME} PUBLIC -fexceptions)
+    target_compile_options(${DLL_ENGINE} PUBLIC -fexceptions)
 endif()
 
 if(${VKB_VALIDATION_LAYERS})
-    target_compile_definitions(${PROJECT_NAME} PUBLIC VKB_VALIDATION_LAYERS)
+    target_compile_definitions(${DLL_ENGINE} PUBLIC VKB_VALIDATION_LAYERS)
 endif()
 
 target_link_libraries(${DLL_ENGINE}
